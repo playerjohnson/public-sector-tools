@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bin Collection Day Lookup UK — Find Your Council's Bin Schedule</title>
+    <meta name="description" content="Find your bin collection schedule. Enter your postcode to find your local council and get a direct link to their bin collection day lookup tool.">
+    <link rel="canonical" href="https://playerjohnson.github.io/public-sector-tools/tools/bin-collection-lookup.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553969093740923" crossorigin="anonymous"></script>
+<!-- Google Analytics GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GSVNXL004D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-GSVNXL004D");</script>
+</head>
+<body>
+    <nav class="site-nav"><div class="nav-inner"><a href="../" class="nav-logo"><span class="logo-mark">🏛</span> Public Sector Tools</a><ul class="nav-links"><li><a href="../">Tools</a></li></ul><button class="nav-hamburger" aria-label="Toggle menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button></div></nav>
+
+    <div class="tool-hero"><h1>Bin Collection Day Lookup</h1><p>Find your bin collection schedule by selecting your local council</p></div>
+
+    <div class="tool-container">
+        <div class="card">
+            <div class="card-header">Find Your Council</div>
+            <div class="form-row">
+                <label for="councilSearch">Search for your council</label>
+                <input type="text" id="councilSearch" placeholder="Start typing your council name or area..." oninput="filterCouncils()">
+            </div>
+            <div id="councilList" class="mt-sm" style="max-height:400px;overflow-y:auto"></div>
+        </div>
+
+        <div id="result" style="display:none">
+            <div class="result-card">
+                <h3 id="councilName"></h3>
+                <p class="mt-sm" style="color:var(--ink-light)">Click below to go directly to your council's bin collection lookup:</p>
+                <a id="councilLink" href="#" target="_blank" class="btn btn-primary mt-md" style="text-decoration:none">View Bin Collection Schedule →</a>
+            </div>
+
+            <div class="card mt-md">
+                <div class="card-header">Typical Bin Schedule</div>
+                <div style="overflow-x:auto">
+                    <table class="data-table">
+                        <thead><tr><th>Bin Type</th><th>Colour</th><th>Frequency</th><th>What Goes In</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>General Waste</strong></td><td>Black / Grey</td><td>Fortnightly</td><td>Non-recyclable household waste</td></tr>
+                            <tr><td><strong>Recycling</strong></td><td>Blue / Green</td><td>Fortnightly (alternating)</td><td>Paper, cardboard, tins, cans, plastic bottles</td></tr>
+                            <tr><td><strong>Garden Waste</strong></td><td>Brown / Green</td><td>Fortnightly (seasonal)</td><td>Grass, leaves, branches, hedge trimmings</td></tr>
+                            <tr><td><strong>Food Waste</strong></td><td>Small caddy</td><td>Weekly</td><td>All food waste, cooked and uncooked</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="mt-sm form-hint">Note: Bin colours and schedules vary by council. Check your council's website for your specific schedule.</p>
+            </div>
+        </div>
+
+        <div class="card mt-lg">
+            <div class="card-header">Quick Tips</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                <div><strong style="font-size:.9rem">🕗 Put bins out by 7am</strong><p style="font-size:.82rem;color:var(--ink-muted);margin-top:4px">Most councils require bins to be out by 7am on collection day, or the evening before.</p></div>
+                <div><strong style="font-size:.9rem">♻️ Rinse containers</strong><p style="font-size:.82rem;color:var(--ink-muted);margin-top:4px">Give tins and plastic bottles a quick rinse. Contaminated recycling gets sent to landfill.</p></div>
+                <div><strong style="font-size:.9rem">🚫 No black bags in recycling</strong><p style="font-size:.82rem;color:var(--ink-muted);margin-top:4px">Put recyclables loose in the bin, not in black plastic bags.</p></div>
+                <div><strong style="font-size:.9rem">📱 Download your council app</strong><p style="font-size:.82rem;color:var(--ink-muted);margin-top:4px">Many councils have apps that send reminders the night before collection.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>How Bin Collections Work</h2>
+        <p>Most UK councils collect bins on a fortnightly rota, alternating between general waste and recycling. Food waste is typically collected weekly. Garden waste collections may be seasonal (March–November) and some councils charge for this service (typically £35–£50 per year).</p>
+
+        <h2>Bank Holiday Changes</h2>
+        <p>Bin collections often shift by one day after bank holidays. If your collection falls on a Monday bank holiday, it will usually be collected on Tuesday, with each subsequent day pushed forward. Most councils publish revised schedules on their website around bank holiday periods.</p>
+
+        <h2>Missed Collections</h2>
+        <p>If your bin was out on time but wasn't collected, report it to your council. Most allow you to report missed collections online, and they'll arrange a return visit within a few days. Don't put extra waste next to the bin — crews may not take it.</p>
+    </div>
+
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../" class="nav-logo" style="color:white"><span class="logo-mark">🏛</span> Public Sector Tools</a><p>Free tools. Not affiliated with any government body.</p></div><div class="footer-col"><h4>Tools</h4><ul><li><a href="bin-collection-lookup.html">Bin Collection</a></li><li><a href="council-tax-estimator.html">Council Tax</a></li><li><a href="planning-permission-checker.html">Planning Check</a></li></ul></div></div><div class="footer-bottom"><p>For guidance only. <a href="../privacy.html" style="color:rgba(255,255,255,.4);text-decoration:underline">Privacy</a> · <a href="../terms.html" style="color:rgba(255,255,255,.4);text-decoration:underline">Terms</a> © 2026 Public Sector Tools.</p></div></footer>
+    <script src="../assets/js/core.js"></script>
+    <script>
+    const COUNCILS = [
+        {name:'Peterborough City Council',url:'https://www.peterborough.gov.uk/residents/rubbish-and-recycling/bin-collections'},
+        {name:'Birmingham City Council',url:'https://www.birmingham.gov.uk/bincollections'},
+        {name:'Manchester City Council',url:'https://www.manchester.gov.uk/bincollections'},
+        {name:'Leeds City Council',url:'https://www.leeds.gov.uk/residents/bins-and-recycling'},
+        {name:'Sheffield City Council',url:'https://www.sheffield.gov.uk/waste-and-recycling/when-is-my-bin-collection'},
+        {name:'Liverpool City Council',url:'https://www.liverpool.gov.uk/bins-and-recycling/bin-collection-dates/'},
+        {name:'Bristol City Council',url:'https://www.bristol.gov.uk/bins-recycling/check-your-collection-day'},
+        {name:'Nottingham City Council',url:'https://www.nottinghamcity.gov.uk/bin-collection'},
+        {name:'Leicester City Council',url:'https://www.leicester.gov.uk/your-environment/waste-and-recycling/collection-days/'},
+        {name:'Coventry City Council',url:'https://www.coventry.gov.uk/bin-collections'},
+        {name:'Bradford City Council',url:'https://www.bradford.gov.uk/bins-and-recycling/bin-collections/'},
+        {name:'Cambridgeshire (South Cambs)',url:'https://www.scambs.gov.uk/bins/find-your-bin-collection-day/'},
+        {name:'Cambridge City Council',url:'https://www.cambridge.gov.uk/check-when-your-bin-will-be-collected'},
+        {name:'Cornwall Council',url:'https://www.cornwall.gov.uk/waste-and-recycling/find-your-collection-days/'},
+        {name:'Devon (East Devon)',url:'https://eastdevon.gov.uk/recycling-and-waste/'},
+        {name:'Durham County Council',url:'https://www.durham.gov.uk/bincollections'},
+        {name:'Essex (Chelmsford)',url:'https://www.chelmsford.gov.uk/bins-and-recycling/check-your-bin-day/'},
+        {name:'Greenwich Council',url:'https://www.royalgreenwich.gov.uk/recycling'},
+        {name:'Hackney Council',url:'https://hackney.gov.uk/recycling-and-waste'},
+        {name:'Hammersmith & Fulham',url:'https://www.lbhf.gov.uk/recycling-and-rubbish'},
+        {name:'Islington Council',url:'https://www.islington.gov.uk/recycling-and-rubbish'},
+        {name:'Camden Council',url:'https://www.camden.gov.uk/recycling-and-rubbish'},
+        {name:'Westminster Council',url:'https://www.westminster.gov.uk/recycling-and-rubbish'},
+        {name:'Lambeth Council',url:'https://www.lambeth.gov.uk/rubbish-recycling'},
+        {name:'Southwark Council',url:'https://www.southwark.gov.uk/bins'},
+        {name:'Tower Hamlets Council',url:'https://www.towerhamlets.gov.uk/bins'},
+        {name:'Wandsworth Council',url:'https://www.wandsworth.gov.uk/rubbish-and-recycling/'},
+        {name:'Croydon Council',url:'https://www.croydon.gov.uk/environment/rubbish-and-recycling'},
+        {name:'Barnet Council',url:'https://www.barnet.gov.uk/recycling-and-waste'},
+        {name:'Ealing Council',url:'https://www.ealing.gov.uk/info/201156/rubbish_and_recycling'},
+        {name:'Enfield Council',url:'https://www.enfield.gov.uk/services/rubbish-and-recycling'},
+        {name:'Harrow Council',url:'https://www.harrow.gov.uk/recycling-waste'},
+        {name:'Hounslow Council',url:'https://www.hounslow.gov.uk/info/20002/recycling_and_waste'},
+        {name:'Kingston Council',url:'https://www.kingston.gov.uk/bins-recycling'},
+        {name:'Merton Council',url:'https://www.merton.gov.uk/rubbish-and-recycling'},
+        {name:'Redbridge Council',url:'https://www.redbridge.gov.uk/bins-and-recycling/'},
+        {name:'Richmond Council',url:'https://www.richmond.gov.uk/services/waste_and_recycling'},
+        {name:'Waltham Forest Council',url:'https://www.walthamforest.gov.uk/rubbish-and-recycling'},
+        {name:'Hampshire (Winchester)',url:'https://www.winchester.gov.uk/waste-and-recycling'},
+        {name:'Kent (Maidstone)',url:'https://www.maidstone.gov.uk/home/primary-services/bins-and-recycling'},
+        {name:'Norfolk (Norwich)',url:'https://www.norwich.gov.uk/info/20209/bins_and_recycling'},
+        {name:'Northamptonshire (West Northants)',url:'https://www.westnorthants.gov.uk/bins-recycling-and-waste'},
+        {name:'Oxfordshire (Oxford City)',url:'https://www.oxford.gov.uk/bins-and-recycling'},
+        {name:'Somerset Council',url:'https://www.somerset.gov.uk/waste-planning-and-land/bins-and-recycling/'},
+        {name:'Suffolk (Ipswich)',url:'https://www.ipswich.gov.uk/content/bin-collection-dates'},
+        {name:'Surrey (Guildford)',url:'https://www.guildford.gov.uk/bins'},
+        {name:'Warwickshire (Warwick)',url:'https://www.warwickdc.gov.uk/info/20469/rubbish_and_recycling'},
+        {name:'Wiltshire Council',url:'https://www.wiltshire.gov.uk/rubbish-and-recycling'},
+        {name:'York City Council',url:'https://www.york.gov.uk/BinCollectionLookup'},
+        {name:'Edinburgh City Council',url:'https://www.edinburgh.gov.uk/bins-recycling'},
+        {name:'Glasgow City Council',url:'https://www.glasgow.gov.uk/index.aspx?articleid=16569'},
+        {name:'Cardiff Council',url:'https://www.cardiff.gov.uk/ENG/resident/Rubbish-and-recycling/When-are-my-bins-collected/'},
+        {name:'Belfast City Council',url:'https://www.belfastcity.gov.uk/bins-recycling'},
+    ];
+
+    function filterCouncils() {
+        const q = document.getElementById('councilSearch').value.toLowerCase().trim();
+        const list = document.getElementById('councilList');
+        const filtered = q.length < 2 ? [] : COUNCILS.filter(c => c.name.toLowerCase().includes(q));
+        list.innerHTML = filtered.length === 0 && q.length >= 2 ?
+            '<p class="form-hint">No councils found. Try a different search term, or <a href="https://www.gov.uk/find-local-council" target="_blank" style="color:var(--accent)">find your council on GOV.UK</a>.</p>' :
+            filtered.map(c => `<button onclick="selectCouncil('${c.name.replace(/'/g,"\\'")}','${c.url}')" style="display:block;width:100%;text-align:left;padding:12px 14px;background:none;border:none;border-bottom:1px solid var(--border);cursor:pointer;font-size:.9rem;color:var(--ink);font-family:var(--sans);transition:background .1s" onmouseover="this.style.background='var(--bg-input)'" onmouseout="this.style.background='none'">${c.name}</button>`).join('');
+    }
+
+    function selectCouncil(name, url) {
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('councilName').textContent = name;
+        document.getElementById('councilLink').href = url;
+        document.getElementById('councilSearch').value = name;
+        document.getElementById('councilList').innerHTML = '';
+        document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+    }
+    </script>
+</body>
+</html>

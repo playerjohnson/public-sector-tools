@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Rates Calculator UK 2025/26 — Calculate Your Business Rates</title>
+    <meta name="description" content="Calculate UK business rates from your rateable value. Includes small business rate relief, standard and small business multipliers for 2025/26.">
+    <link rel="canonical" href="https://playerjohnson.github.io/public-sector-tools/tools/business-rates-calculator.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553969093740923" crossorigin="anonymous"></script>
+<!-- Google Analytics GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GSVNXL004D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-GSVNXL004D");</script>
+</head>
+<body>
+    <nav class="site-nav"><div class="nav-inner"><a href="../" class="nav-logo"><span class="logo-mark">🏛</span> Public Sector Tools</a><ul class="nav-links"><li><a href="../">Tools</a></li></ul><button class="nav-hamburger" aria-label="Toggle menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button></div></nav>
+
+    <div class="tool-hero"><h1>Business Rates Calculator</h1><p>Calculate your business rates bill from rateable value — England 2025/26</p></div>
+
+    <div class="tool-container">
+        <div class="card">
+            <div class="card-header">Property Details</div>
+            <div class="form-row">
+                <label for="rv">Rateable Value (£)</label>
+                <input type="number" id="rv" value="15000" min="0" step="500" oninput="calculate()">
+                <div class="form-hint">Find your rateable value on the <a href="https://www.gov.uk/correct-your-business-rates" target="_blank" style="color:var(--accent)">VOA website</a></div>
+            </div>
+            <div class="form-grid">
+                <div class="form-row">
+                    <label for="relief">Relief Type</label>
+                    <select id="relief" onchange="calculate()">
+                        <option value="auto">Auto-detect (based on RV)</option>
+                        <option value="none">No relief</option>
+                        <option value="sbrr">Small Business Rate Relief</option>
+                        <option value="rural">Rural Rate Relief</option>
+                        <option value="charitable">Charitable Relief (80%)</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label for="occupied">Property Status</label>
+                    <select id="occupied" onchange="calculate()">
+                        <option value="yes">Occupied</option>
+                        <option value="no">Empty</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="result" class="result-card">
+            <h3>Estimated Annual Business Rates</h3>
+            <div class="result-grid" id="resultGrid"></div>
+            <div id="breakdown" class="mt-md" style="font-size:.88rem;color:var(--ink-light)"></div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>How Business Rates Are Calculated</h2>
+        <p>Your business rates bill = Rateable Value × Multiplier − Reliefs. The rateable value is set by the Valuation Office Agency based on estimated annual rental value. The multiplier (pence in the pound) is set by central government annually.</p>
+
+        <h2>2025/26 Multipliers</h2>
+        <p>The standard multiplier for 2025/26 is 55.5p (for properties with RV above £51,000). The small business multiplier is 49.9p (for properties with RV at or below £51,000). These are applied per pound of rateable value.</p>
+
+        <h2>Small Business Rate Relief</h2>
+        <p>Properties with a rateable value of £12,000 or less get 100% relief (no business rates to pay). Between £12,001 and £15,000, relief tapers from 100% to 0% on a sliding scale. You must occupy only one property to qualify.</p>
+
+        <h2>Empty Property Relief</h2>
+        <p>Empty commercial properties are exempt for the first 3 months (6 months for industrial properties). After that, full rates apply. Some properties may qualify for ongoing empty property relief.</p>
+    </div>
+
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../" class="nav-logo" style="color:white"><span class="logo-mark">🏛</span> Public Sector Tools</a><p>Free tools. Not affiliated with any government body.</p></div><div class="footer-col"><h4>Tools</h4><ul><li><a href="council-tax-estimator.html">Council Tax</a></li><li><a href="business-rates-calculator.html">Business Rates</a></li><li><a href="pay-grade-calculator.html">Pay Grades</a></li></ul></div></div><div class="footer-bottom"><p>For guidance only. <a href="../privacy.html" style="color:rgba(255,255,255,.4);text-decoration:underline">Privacy</a> · <a href="../terms.html" style="color:rgba(255,255,255,.4);text-decoration:underline">Terms</a> © 2026 Public Sector Tools.</p></div></footer>
+    <script src="../assets/js/core.js"></script>
+    <script>
+    const STD_MULT = 0.555;
+    const SM_MULT = 0.499;
+    const SBRR_FULL = 12000;
+    const SBRR_TAPER = 15000;
+
+    function calculate() {
+        const rv = parseFloat(document.getElementById('rv').value) || 0;
+        const reliefType = document.getElementById('relief').value;
+        const occupied = document.getElementById('occupied').value === 'yes';
+        const multiplier = rv > 51000 ? STD_MULT : SM_MULT;
+        const gross = rv * multiplier;
+        let relief = 0, reliefName = 'None';
+
+        if (reliefType === 'auto' || reliefType === 'sbrr') {
+            if (rv <= SBRR_FULL) { relief = gross; reliefName = 'Small Business Rate Relief (100%)'; }
+            else if (rv <= SBRR_TAPER) { const pct = ((SBRR_TAPER - rv) / (SBRR_TAPER - SBRR_FULL)) * 100; relief = gross * (pct / 100); reliefName = `Small Business Rate Relief (${pct.toFixed(0)}%)`; }
+            else if (reliefType === 'sbrr') { reliefName = 'Not eligible (RV > £15,000)'; }
+        }
+        if (reliefType === 'charitable') { relief = gross * 0.8; reliefName = 'Charitable Relief (80%)'; }
+        if (reliefType === 'rural') { relief = gross; reliefName = 'Rural Rate Relief (100%)'; }
+        if (reliefType === 'none') { relief = 0; reliefName = 'None applied'; }
+
+        let net = Math.max(0, gross - relief);
+        if (!occupied) net = gross; // empty properties pay full after exemption period
+
+        const monthly = net / 12;
+        document.getElementById('resultGrid').innerHTML = `
+            <div class="result-item"><div class="result-value">${PS.fmtGBP(net)}</div><div class="result-label">Annual Bill</div></div>
+            <div class="result-item"><div class="result-value">${PS.fmtGBP(monthly)}</div><div class="result-label">Monthly</div></div>
+            <div class="result-item"><div class="result-value">${(multiplier * 100).toFixed(1)}p</div><div class="result-label">Multiplier</div></div>
+            <div class="result-item"><div class="result-value">${PS.fmtGBP(relief)}</div><div class="result-label">Relief Applied</div></div>
+        `;
+        document.getElementById('breakdown').innerHTML = `
+            <strong>Breakdown:</strong> RV ${PS.fmtGBP(rv)} × ${(multiplier*100).toFixed(1)}p multiplier = ${PS.fmtGBP(gross)} gross.
+            Relief: ${reliefName} (${PS.fmtGBP(relief)}). Net payable: ${PS.fmtGBP(net)}.
+            ${!occupied ? '<br><em>Note: Empty property — rates may be exempt for first 3 months.</em>' : ''}
+        `;
+    }
+    calculate();
+    </script>
+</body>
+</html>

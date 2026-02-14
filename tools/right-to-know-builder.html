@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject Access Request Builder — Right to Know Your Data (UK GDPR SAR)</title>
+    <meta name="description" content="Generate a Subject Access Request letter under UK GDPR. Exercise your right to know what personal data organisations hold about you. Free SAR template.">
+    <link rel="canonical" href="https://playerjohnson.github.io/public-sector-tools/tools/right-to-know-builder.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553969093740923" crossorigin="anonymous"></script>
+<!-- Google Analytics GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GSVNXL004D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-GSVNXL004D");</script>
+</head>
+<body>
+    <nav class="site-nav"><div class="nav-inner"><a href="../" class="nav-logo"><span class="logo-mark">🏛</span> Public Sector Tools</a><ul class="nav-links"><li><a href="../">Tools</a></li></ul><button class="nav-hamburger" aria-label="Toggle menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button></div></nav>
+
+    <div class="tool-hero"><h1>Right to Know Request Builder</h1><p>Generate a Subject Access Request under UK GDPR to find out what data organisations hold about you</p></div>
+
+    <div class="tool-container">
+        <div class="card">
+            <div class="card-header">Your Details</div>
+            <div class="form-grid">
+                <div class="form-row"><label for="name">Your Full Name</label><input type="text" id="name" placeholder="Jane Smith"></div>
+                <div class="form-row"><label for="email">Your Email</label><input type="email" id="email" placeholder="jane@example.com"></div>
+            </div>
+            <div class="form-grid">
+                <div class="form-row"><label for="address">Your Address</label><input type="text" id="address" placeholder="456 Oak Lane, Manchester, M1 2AB"></div>
+                <div class="form-row"><label for="dob">Date of Birth (helps ID you)</label><input type="text" id="dob" placeholder="15 March 1985"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Organisation Details</div>
+            <div class="form-row"><label for="org">Organisation Name</label><input type="text" id="org" placeholder="e.g. Peterborough City Council, HMRC, your employer"></div>
+            <div class="form-row">
+                <label for="orgType">Type</label>
+                <select id="orgType">
+                    <option value="public">Public Authority (council, NHS, police)</option>
+                    <option value="employer">Employer</option>
+                    <option value="company">Private Company</option>
+                    <option value="bank">Bank / Financial Institution</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">What Data Do You Want?</div>
+            <div class="form-row">
+                <label>Select categories (check all that apply)</label>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+                    <label style="font-size:.88rem;font-weight:400;display:flex;align-items:center;gap:8px"><input type="checkbox" id="c_all" checked> All personal data held</label>
+                    <label style="font-size:.88rem;font-weight:400;display:flex;align-items:center;gap:8px"><input type="checkbox" id="c_emails"> Emails mentioning me</label>
+                    <label style="font-size:.88rem;font-weight:400;display:flex;align-items:center;gap:8px"><input type="checkbox" id="c_hr"> HR/personnel records</label>
+                    <label style="font-size:.88rem;font-weight:400;display:flex;align-items:center;gap:8px"><input type="checkbox" id="c_cctv"> CCTV footage</label>
+                    <label style="font-size:.88rem;font-weight:400;display:flex;align-items:center;gap:8px"><input type="checkbox" id="c_decisions"> Automated decisions about me</label>
+                    <label style="font-size:.88rem;font-weight:400;display:flex;align-items:center;gap:8px"><input type="checkbox" id="c_sharing"> Who my data is shared with</label>
+                </div>
+            </div>
+            <div class="form-row"><label for="extra">Additional specific data requested (optional)</label><textarea id="extra" rows="3" placeholder="e.g. All records related to my complaint ref ABC123, any profiling or scoring data"></textarea></div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="generate()">Generate SAR Letter</button>
+            <button class="btn btn-secondary" onclick="PS.copy(document.getElementById('output').textContent, this)">Copy</button>
+            <button class="btn btn-secondary" onclick="PS.download(document.getElementById('output').textContent, 'subject-access-request.txt')">Download</button>
+        </div>
+
+        <div class="card mt-lg">
+            <div class="card-header">Generated Letter</div>
+            <div class="output-box" id="output" style="min-height:300px">Fill in the form above and click "Generate SAR Letter"...</div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>What Is a Subject Access Request?</h2>
+        <p>Under Article 15 of the UK GDPR, you have the right to obtain a copy of your personal data from any organisation that processes it. This is called a Subject Access Request (SAR). Organisations must respond within one calendar month and cannot charge a fee in most cases.</p>
+
+        <h2>Who Can You Send a SAR To?</h2>
+        <p>Any organisation that holds your personal data — employers, councils, NHS trusts, banks, insurers, social media companies, online retailers, landlords, schools, and more. Unlike FOI requests (which only cover public bodies), SARs apply to any data controller.</p>
+
+        <h2>What Must They Provide?</h2>
+        <p>They must confirm whether they process your data, provide a copy of that data, explain the purposes of processing, who it has been shared with, the retention period, and your rights to rectification or erasure. For automated decisions, they must explain the logic involved.</p>
+    </div>
+
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../" class="nav-logo" style="color:white"><span class="logo-mark">🏛</span> Public Sector Tools</a><p>Free tools. Not affiliated with any government body.</p></div><div class="footer-col"><h4>Tools</h4><ul><li><a href="right-to-know-builder.html">Right to Know</a></li><li><a href="foi-request-generator.html">FOI Request</a></li><li><a href="council-tax-estimator.html">Council Tax</a></li></ul></div></div><div class="footer-bottom"><p>For guidance only. <a href="../privacy.html" style="color:rgba(255,255,255,.4);text-decoration:underline">Privacy</a> · <a href="../terms.html" style="color:rgba(255,255,255,.4);text-decoration:underline">Terms</a> © 2026 Public Sector Tools.</p></div></footer>
+    <script src="../assets/js/core.js"></script>
+    <script>
+    const today = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+
+    function generate() {
+        const n = document.getElementById('name').value.trim() || '[Your Name]';
+        const e = document.getElementById('email').value.trim() || '[Your Email]';
+        const a = document.getElementById('address').value.trim();
+        const dob = document.getElementById('dob').value.trim();
+        const org = document.getElementById('org').value.trim() || '[Organisation Name]';
+        const extra = document.getElementById('extra').value.trim();
+
+        let categories = [];
+        if (document.getElementById('c_all').checked) categories.push('All personal data you hold about me in any format (electronic and paper records)');
+        if (document.getElementById('c_emails').checked) categories.push('All emails, messages and correspondence where I am mentioned or referenced');
+        if (document.getElementById('c_hr').checked) categories.push('All HR and personnel records, including performance reviews, disciplinary records and absence data');
+        if (document.getElementById('c_cctv').checked) categories.push('Any CCTV footage in which I appear');
+        if (document.getElementById('c_decisions').checked) categories.push('Details of any automated decision-making or profiling carried out using my data, including the logic involved');
+        if (document.getElementById('c_sharing').checked) categories.push('A list of all third parties my personal data has been shared with');
+        if (extra) categories.push(extra);
+        if (categories.length === 0) categories.push('All personal data you hold about me');
+
+        const letter = `${n}${a ? '\n' + a : ''}
+${e}
+
+${today}
+
+Subject Access Request under UK GDPR
+${org}
+
+Dear Data Protection Officer,
+
+I am writing to make a Subject Access Request under Article 15 of the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018.
+
+Please provide me with the following personal data:
+
+${categories.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+To help you locate my records, my details are:
+- Full name: ${n}${dob ? '\n- Date of birth: ' + dob : ''}${a ? '\n- Address: ' + a : ''}
+- Email: ${e}
+
+In addition to the above data, please also provide:
+- The purposes for which my data is being processed
+- The categories of personal data held
+- The recipients or categories of recipients to whom my data has been disclosed
+- The retention period for my data, or the criteria used to determine it
+- Information about any automated decision-making, including profiling
+
+I understand that you are required to respond to this request within one calendar month under Article 12(3) of the UK GDPR. If you need to extend this period, please inform me within the initial month with reasons.
+
+If you require any further information to verify my identity, please contact me at the email address above.
+
+Thank you for your prompt attention to this request.
+
+Yours faithfully,
+${n}`;
+
+        document.getElementById('output').textContent = letter;
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Council Tax Band Estimator UK — What Band Is My Property?</title>
+    <meta name="description" content="Estimate your council tax band based on property value and see typical annual charges by region. Covers England, Scotland and Wales bands for 2025/26.">
+    <link rel="canonical" href="https://playerjohnson.github.io/public-sector-tools/tools/council-tax-estimator.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553969093740923" crossorigin="anonymous"></script>
+<!-- Google Analytics GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GSVNXL004D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-GSVNXL004D");</script>
+</head>
+<body>
+    <nav class="site-nav"><div class="nav-inner"><a href="../" class="nav-logo"><span class="logo-mark">🏛</span> Public Sector Tools</a><ul class="nav-links"><li><a href="../">Tools</a></li></ul><button class="nav-hamburger" aria-label="Toggle menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button></div></nav>
+
+    <div class="tool-hero"><h1>Council Tax Band Estimator</h1><p>Estimate your council tax band based on property value at 1 April 1991 (England/Scotland) or 2003 (Wales)</p></div>
+
+    <div class="tool-container">
+        <div class="card">
+            <div class="card-header">Property Details</div>
+            <div class="form-grid">
+                <div class="form-row">
+                    <label for="region">Region</label>
+                    <select id="region" onchange="calculate()">
+                        <option value="england">England</option>
+                        <option value="scotland">Scotland</option>
+                        <option value="wales">Wales</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label for="propValue">Property Value (at valuation date)</label>
+                    <input type="number" id="propValue" value="180000" min="0" step="1000" oninput="calculate()">
+                    <div class="form-hint">England/Scotland: April 1991 value. Wales: April 2003 value.</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="result" class="result-card" style="display:none">
+            <h3 id="bandResult"></h3>
+            <div class="result-grid" id="resultGrid"></div>
+        </div>
+
+        <div class="card mt-lg">
+            <div class="card-header">All Bands — <span id="regionLabel">England</span></div>
+            <div style="overflow-x:auto">
+                <table class="data-table" id="bandTable"></table>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>How Council Tax Bands Work</h2>
+        <p>Council tax bands are based on the value of your property at a specific date — 1 April 1991 for England and Scotland, and 1 April 2003 for Wales. Your band determines how much council tax you pay relative to Band D, which is the reference point. Band A pays two-thirds of Band D, while Band H pays twice Band D.</p>
+
+        <h2>Can I Challenge My Band?</h2>
+        <p>Yes. If you believe your property is in the wrong band, you can challenge it through the Valuation Office Agency (England/Wales) or the Scottish Assessors Association (Scotland). Common reasons include comparable properties in a lower band, property changes that should reduce the band, or factual errors in the valuation.</p>
+
+        <h2>Council Tax Discounts</h2>
+        <p>Single person occupants get a 25% discount. Full-time students are exempt. People with severe mental impairment may qualify for exemption or discount. Council tax reduction (formerly council tax benefit) is available for people on low income.</p>
+
+        <h2>About This Estimator</h2>
+        <p>This tool estimates your band based on the official valuation thresholds. Actual charges vary by local authority — the figures shown are based on national average Band D charges. Check your council's website for exact amounts.</p>
+    </div>
+
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../" class="nav-logo" style="color:white"><span class="logo-mark">🏛</span> Public Sector Tools</a><p>Free tools. Not affiliated with any government body.</p></div><div class="footer-col"><h4>Tools</h4><ul><li><a href="council-tax-estimator.html">Council Tax</a></li><li><a href="business-rates-calculator.html">Business Rates</a></li><li><a href="foi-request-generator.html">FOI Request</a></li></ul></div></div><div class="footer-bottom"><p>For guidance only — not financial advice. <a href="../privacy.html" style="color:rgba(255,255,255,.4);text-decoration:underline">Privacy</a> · <a href="../terms.html" style="color:rgba(255,255,255,.4);text-decoration:underline">Terms</a> © 2026 Public Sector Tools.</p></div></footer>
+    <script src="../assets/js/core.js"></script>
+    <script>
+    const BANDS = {
+        england: [
+            { band:'A', min:0, max:40000, ratio:6/9 },
+            { band:'B', min:40001, max:52000, ratio:7/9 },
+            { band:'C', min:52001, max:68000, ratio:8/9 },
+            { band:'D', min:68001, max:88000, ratio:1 },
+            { band:'E', min:88001, max:120000, ratio:11/9 },
+            { band:'F', min:120001, max:160000, ratio:13/9 },
+            { band:'G', min:160001, max:320000, ratio:15/9 },
+            { band:'H', min:320001, max:Infinity, ratio:2 },
+        ],
+        scotland: [
+            { band:'A', min:0, max:27000, ratio:6/9 },
+            { band:'B', min:27001, max:35000, ratio:7/9 },
+            { band:'C', min:35001, max:45000, ratio:8/9 },
+            { band:'D', min:45001, max:58000, ratio:1 },
+            { band:'E', min:58001, max:80000, ratio:473/360 },
+            { band:'F', min:80001, max:106000, ratio:585/360 },
+            { band:'G', min:106001, max:212000, ratio:705/360 },
+            { band:'H', min:212001, max:Infinity, ratio:882/360 },
+        ],
+        wales: [
+            { band:'A', min:0, max:44000, ratio:6/9 },
+            { band:'B', min:44001, max:65000, ratio:7/9 },
+            { band:'C', min:65001, max:91000, ratio:8/9 },
+            { band:'D', min:91001, max:123000, ratio:1 },
+            { band:'E', min:123001, max:162000, ratio:11/9 },
+            { band:'F', min:162001, max:223000, ratio:13/9 },
+            { band:'G', min:223001, max:324000, ratio:15/9 },
+            { band:'H', min:324001, max:424000, ratio:18/9 },
+            { band:'I', min:424001, max:Infinity, ratio:21/9 },
+        ]
+    };
+    const AVG_BAND_D = { england: 2171, scotland: 1418, wales: 1879 };
+
+    function calculate() {
+        const region = document.getElementById('region').value;
+        const val = parseFloat(document.getElementById('propValue').value) || 0;
+        const bands = BANDS[region];
+        const bandD = AVG_BAND_D[region];
+        let matched = bands[bands.length - 1];
+        for (const b of bands) { if (val >= b.min && val <= b.max) { matched = b; break; } }
+
+        const annual = Math.round(bandD * matched.ratio);
+        const monthly = (annual / 10).toFixed(2); // 10 monthly payments
+
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('bandResult').textContent = `Estimated Band: ${matched.band}`;
+        document.getElementById('resultGrid').innerHTML = `
+            <div class="result-item"><div class="result-value">${matched.band}</div><div class="result-label">Council Tax Band</div></div>
+            <div class="result-item"><div class="result-value">${PS.fmtGBP(annual)}</div><div class="result-label">Estimated Annual</div></div>
+            <div class="result-item"><div class="result-value">${PS.fmtGBP(parseFloat(monthly))}</div><div class="result-label">Monthly (10 payments)</div></div>
+            <div class="result-item"><div class="result-value">${(matched.ratio * 100).toFixed(0)}%</div><div class="result-label">of Band D rate</div></div>
+        `;
+
+        document.getElementById('regionLabel').textContent = region.charAt(0).toUpperCase() + region.slice(1);
+        const table = document.getElementById('bandTable');
+        table.innerHTML = `<thead><tr><th>Band</th><th>Property Value</th><th>Ratio to D</th><th>Est. Annual</th></tr></thead><tbody>` +
+            bands.map(b => `<tr class="${b.band === matched.band ? 'highlight' : ''}"><td><strong>Band ${b.band}</strong></td><td>${b.max === Infinity ? 'Over £' + PS.fmtNum(b.min - 1) : '£' + PS.fmtNum(b.min) + ' – £' + PS.fmtNum(b.max)}</td><td>${(b.ratio * 100).toFixed(0)}%</td><td>${PS.fmtGBP(Math.round(bandD * b.ratio))}</td></tr>`).join('') +
+            `</tbody>`;
+    }
+    calculate();
+    </script>
+</body>
+</html>

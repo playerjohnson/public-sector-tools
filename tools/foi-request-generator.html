@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOI Request Generator — Free Freedom of Information Request Template UK</title>
+    <meta name="description" content="Generate a properly formatted Freedom of Information request for any UK public authority. Free FOI request template with guidance on what to include.">
+    <link rel="canonical" href="https://playerjohnson.github.io/public-sector-tools/tools/foi-request-generator.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553969093740923" crossorigin="anonymous"></script>
+<!-- Google Analytics GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GSVNXL004D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-GSVNXL004D");</script>
+</head>
+<body>
+    <nav class="site-nav"><div class="nav-inner"><a href="../" class="nav-logo"><span class="logo-mark">🏛</span> Public Sector Tools</a><ul class="nav-links"><li><a href="../">Tools</a></li></ul><button class="nav-hamburger" aria-label="Toggle menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button></div></nav>
+
+    <div class="tool-hero"><h1>FOI Request Generator</h1><p>Generate a properly formatted Freedom of Information request letter</p></div>
+
+    <div class="tool-container">
+        <div class="card">
+            <div class="card-header">Your Details</div>
+            <div class="form-grid">
+                <div class="form-row"><label for="yourName">Your Full Name</label><input type="text" id="yourName" placeholder="John Smith"></div>
+                <div class="form-row"><label for="yourEmail">Your Email</label><input type="email" id="yourEmail" placeholder="john@example.com"></div>
+            </div>
+            <div class="form-row"><label for="yourAddress">Your Address (optional)</label><input type="text" id="yourAddress" placeholder="123 High Street, London, SW1A 1AA"></div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Authority Details</div>
+            <div class="form-row"><label for="authority">Public Authority Name</label><input type="text" id="authority" placeholder="e.g. Peterborough City Council, NHS England, HMRC"></div>
+            <div class="form-row">
+                <label for="authorityType">Authority Type</label>
+                <select id="authorityType">
+                    <option value="council">Local Council</option>
+                    <option value="nhs">NHS Body</option>
+                    <option value="police">Police Force</option>
+                    <option value="government">Government Department</option>
+                    <option value="school">School / University</option>
+                    <option value="other">Other Public Authority</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Your Request</div>
+            <div class="form-row"><label for="subject">Subject / Topic</label><input type="text" id="subject" placeholder="e.g. Spending on temporary staff, Road repair schedules"></div>
+            <div class="form-row">
+                <label for="request">Information Requested (be specific)</label>
+                <textarea id="request" rows="5" placeholder="Describe the information you want as specifically as possible. Include date ranges, departments, or categories where relevant.
+
+Example: Please provide the total amount spent on agency and temporary staff for each department in the financial years 2023/24 and 2024/25, broken down by department and quarter."></textarea>
+            </div>
+            <div class="form-row">
+                <label for="format">Preferred Format</label>
+                <select id="format">
+                    <option value="electronic">Electronic (email)</option>
+                    <option value="spreadsheet">Spreadsheet (Excel/CSV)</option>
+                    <option value="paper">Paper copy</option>
+                    <option value="any">Any format</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="generate()">Generate FOI Request</button>
+            <button class="btn btn-secondary" onclick="copyLetter()">Copy to Clipboard</button>
+            <button class="btn btn-secondary" onclick="downloadLetter()">Download as .txt</button>
+        </div>
+
+        <div class="card mt-lg">
+            <div class="card-header">Generated Letter</div>
+            <div class="output-box" id="output" style="min-height:300px">Fill in the form above and click "Generate FOI Request"...</div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>What Is a Freedom of Information Request?</h2>
+        <p>The Freedom of Information Act 2000 gives you the right to request any recorded information held by public authorities in England, Wales and Northern Ireland. The Freedom of Information (Scotland) Act 2002 covers Scottish public authorities. Authorities must respond within 20 working days.</p>
+
+        <h2>Who Can You Send an FOI Request To?</h2>
+        <p>Any public authority including local councils, government departments, NHS bodies, police forces, schools, universities, and many other public organisations. Private companies are not covered unless they carry out public functions.</p>
+
+        <h2>Tips for Effective FOI Requests</h2>
+        <p>Be specific about what you want — vague requests are more likely to be refused as too broad. Include date ranges where relevant. Ask for data in spreadsheet format if you want to analyse numbers. You don't need to explain why you want the information.</p>
+
+        <h2>What If My Request Is Refused?</h2>
+        <p>If refused, the authority must explain which exemption applies. You can request an internal review, then complain to the Information Commissioner's Office (ICO) if unsatisfied. Common exemptions include personal data (Section 40), commercial interests (Section 43), and policy formulation (Section 35).</p>
+    </div>
+
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../" class="nav-logo" style="color:white"><span class="logo-mark">🏛</span> Public Sector Tools</a><p>Free tools. Not affiliated with any government body.</p></div><div class="footer-col"><h4>Tools</h4><ul><li><a href="foi-request-generator.html">FOI Request</a></li><li><a href="right-to-know-builder.html">Right to Know</a></li><li><a href="council-tax-estimator.html">Council Tax</a></li></ul></div></div><div class="footer-bottom"><p>For guidance only. <a href="../privacy.html" style="color:rgba(255,255,255,.4);text-decoration:underline">Privacy</a> · <a href="../terms.html" style="color:rgba(255,255,255,.4);text-decoration:underline">Terms</a> © 2026 Public Sector Tools.</p></div></footer>
+    <script src="../assets/js/core.js"></script>
+    <script>
+    const today = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+    const formatMap = { electronic:'by email in electronic format', spreadsheet:'in spreadsheet format (Excel or CSV) by email', paper:'as a paper copy sent to my address', any:'in any convenient format' };
+
+    function generate() {
+        const name = document.getElementById('yourName').value.trim() || '[Your Name]';
+        const email = document.getElementById('yourEmail').value.trim() || '[Your Email]';
+        const addr = document.getElementById('yourAddress').value.trim();
+        const authority = document.getElementById('authority').value.trim() || '[Public Authority Name]';
+        const subject = document.getElementById('subject').value.trim() || '[Subject]';
+        const request = document.getElementById('request').value.trim() || '[Describe the information you require]';
+        const format = formatMap[document.getElementById('format').value];
+
+        const letter = `${name}${addr ? '\n' + addr : ''}
+${email}
+
+${today}
+
+Freedom of Information Request
+${authority}
+
+Dear Sir/Madam,
+
+I am writing to make a request for information under the Freedom of Information Act 2000.
+
+Subject: ${subject}
+
+I would like to request the following information:
+
+${request}
+
+I would like this information to be provided ${format}.
+
+If any part of this request is unclear, I would be grateful if you could contact me to discuss before deciding that the request is too broad or unclear to process. I am happy to narrow the scope of my request if necessary.
+
+If any of the requested information is subject to exemption, please provide the remaining non-exempt information and cite the specific exemption(s) applied to any withheld material.
+
+I understand that you are required to respond to this request within 20 working days under Section 10 of the Freedom of Information Act 2000.
+
+If you are not the appropriate authority to handle this request, I would appreciate it if you could transfer it to the relevant body or advise me who I should contact.
+
+Thank you for your assistance.
+
+Yours faithfully,
+${name}`;
+
+        document.getElementById('output').textContent = letter;
+    }
+
+    function copyLetter() { PS.copy(document.getElementById('output').textContent, document.querySelector('[onclick="copyLetter()"]')); }
+    function downloadLetter() { const t = document.getElementById('output').textContent; if (t) PS.download(t, 'foi-request.txt'); }
+    </script>
+</body>
+</html>

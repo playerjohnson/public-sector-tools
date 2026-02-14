@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planning Permission Checker UK — Do I Need Planning Permission?</title>
+    <meta name="description" content="Check whether your home improvement project needs planning permission in the UK. Covers extensions, loft conversions, outbuildings, fences, and more.">
+    <link rel="canonical" href="https://playerjohnson.github.io/public-sector-tools/tools/planning-permission-checker.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553969093740923" crossorigin="anonymous"></script>
+<!-- Google Analytics GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GSVNXL004D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-GSVNXL004D");</script>
+</head>
+<body>
+    <nav class="site-nav"><div class="nav-inner"><a href="../" class="nav-logo"><span class="logo-mark">🏛</span> Public Sector Tools</a><ul class="nav-links"><li><a href="../">Tools</a></li></ul><button class="nav-hamburger" aria-label="Toggle menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button></div></nav>
+
+    <div class="tool-hero"><h1>Planning Permission Checker</h1><p>Check whether your home improvement project is likely to need planning permission</p></div>
+
+    <div class="tool-container">
+        <div class="card">
+            <div class="card-header">Project Type</div>
+            <div class="form-row">
+                <label for="projectType">What are you planning?</label>
+                <select id="projectType" onchange="showQuestions()">
+                    <option value="">Select a project...</option>
+                    <option value="rear_ext">Single-storey rear extension</option>
+                    <option value="side_ext">Side extension</option>
+                    <option value="two_storey_ext">Two-storey extension</option>
+                    <option value="loft">Loft conversion</option>
+                    <option value="outbuilding">Garden outbuilding / shed / summerhouse</option>
+                    <option value="porch">Porch</option>
+                    <option value="fence">Fence, wall or gate</option>
+                    <option value="driveway">Driveway / hardstanding</option>
+                    <option value="solar">Solar panels</option>
+                    <option value="satellite">Satellite dish / antenna</option>
+                    <option value="windows">Replacement windows</option>
+                    <option value="internal">Internal alterations</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="questions" class="card" style="display:none">
+            <div class="card-header">Project Details</div>
+            <div id="questionFields"></div>
+        </div>
+
+        <div id="result" style="display:none"></div>
+    </div>
+
+    <div class="content-section">
+        <h2>What Is Permitted Development?</h2>
+        <p>Permitted development rights allow certain building works and changes of use without applying for planning permission. These rights are set out in the Town and Country Planning (General Permitted Development) (England) Order 2015 (as amended). They cover common home improvements within specific size and position limits.</p>
+
+        <h2>When Are PD Rights Removed?</h2>
+        <p>Your permitted development rights may be restricted if your property is listed, in a conservation area, an Area of Outstanding Natural Beauty, a National Park, or the Norfolk or Suffolk Broads. They may also have been removed by conditions on the original planning permission (known as an Article 4 direction).</p>
+
+        <h2>Certificate of Lawfulness</h2>
+        <p>Even if your project falls under permitted development, you can apply for a Lawful Development Certificate from your council. This costs around £206 and provides formal confirmation that no planning permission is needed — useful for future property sales.</p>
+
+        <h2>Disclaimer</h2>
+        <p>This tool provides general guidance based on common permitted development rules in England. It does not constitute formal planning advice. Always check with your local planning authority before starting work, especially for larger projects.</p>
+    </div>
+
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../" class="nav-logo" style="color:white"><span class="logo-mark">🏛</span> Public Sector Tools</a><p>Free tools. Not affiliated with any government body.</p></div><div class="footer-col"><h4>Tools</h4><ul><li><a href="planning-permission-checker.html">Planning Check</a></li><li><a href="council-tax-estimator.html">Council Tax</a></li><li><a href="foi-request-generator.html">FOI Request</a></li></ul></div></div><div class="footer-bottom"><p>General guidance only — always check with your local planning authority. <a href="../privacy.html" style="color:rgba(255,255,255,.4);text-decoration:underline">Privacy</a> · <a href="../terms.html" style="color:rgba(255,255,255,.4);text-decoration:underline">Terms</a> © 2026 Public Sector Tools.</p></div></footer>
+    <script src="../assets/js/core.js"></script>
+    <script>
+    const PROJECTS = {
+        rear_ext: {
+            questions: [
+                { id:'listed', label:'Is the property listed or in a conservation area?', type:'yesno' },
+                { id:'depth', label:'How far will it extend from the rear wall? (metres)', type:'number', hint:'Detached: max 8m. Semi/terrace: max 6m under PD.' },
+                { id:'height', label:'What will the maximum height be? (metres)', type:'number', hint:'Max 4m for single storey under PD.' },
+                { id:'boundary', label:'Will it be within 2m of a boundary?', type:'yesno' },
+            ],
+            evaluate(a) {
+                if (a.listed === 'yes') return { needed: true, reason: 'Listed buildings and properties in conservation areas require planning permission for most external alterations.' };
+                const maxDepth = 8; // simplified — detached gets 8m, semi gets 6m
+                if (a.depth > maxDepth) return { needed: true, reason: `Extensions over ${maxDepth}m depth exceed permitted development limits and require planning permission.` };
+                if (a.height > 4) return { needed: true, reason: 'Single-storey extensions over 4m height require planning permission.' };
+                if (a.boundary === 'yes' && a.height > 3) return { needed: true, reason: 'Within 2m of a boundary, the maximum eaves height is 3m under permitted development.' };
+                return { needed: false, reason: 'Based on your answers, this is likely to fall within permitted development rights. The extension must not cover more than half the garden area and must use similar materials.' };
+            }
+        },
+        loft: {
+            questions: [
+                { id:'listed', label:'Is the property listed or in a conservation area?', type:'yesno' },
+                { id:'volume', label:'Additional roof space volume (cubic metres)', type:'number', hint:'Terraced: max 40m³. Detached/semi: max 50m³ under PD.' },
+                { id:'dormer_front', label:'Will there be a front-facing dormer?', type:'yesno' },
+                { id:'higher', label:'Will it extend above the existing roof ridge?', type:'yesno' },
+            ],
+            evaluate(a) {
+                if (a.listed === 'yes') return { needed: true, reason: 'Listed buildings require listed building consent for loft conversions.' };
+                if (a.dormer_front === 'yes') return { needed: true, reason: 'Front-facing dormers are not permitted development on most properties and require planning permission.' };
+                if (a.higher === 'yes') return { needed: true, reason: 'Extending above the existing roof ridge requires planning permission.' };
+                if (a.volume > 50) return { needed: true, reason: 'Exceeding 50m³ additional volume (40m³ for terraced houses) requires planning permission.' };
+                return { needed: false, reason: 'Based on your answers, this loft conversion is likely to fall within permitted development. Rear dormers must use materials similar to the existing house.' };
+            }
+        },
+        outbuilding: {
+            questions: [
+                { id:'listed', label:'Is the property listed or in a conservation area?', type:'yesno' },
+                { id:'height', label:'Maximum height (metres)', type:'number', hint:'Max 2.5m within 2m of boundary. Max 4m dual-pitch, 3m otherwise.' },
+                { id:'area', label:'Will outbuildings cover more than 50% of garden?', type:'yesno' },
+                { id:'forward', label:'Is it in front of the principal elevation?', type:'yesno' },
+            ],
+            evaluate(a) {
+                if (a.listed === 'yes') return { needed: true, reason: 'Listed buildings need consent for outbuildings.' };
+                if (a.forward === 'yes') return { needed: true, reason: 'Outbuildings in front of the principal elevation require planning permission.' };
+                if (a.area === 'yes') return { needed: true, reason: 'Total area of outbuildings cannot exceed 50% of the garden under PD.' };
+                if (a.height > 4) return { needed: true, reason: 'Outbuildings over 4m height (dual pitch) or 3m (other) require planning permission.' };
+                return { needed: false, reason: 'This outbuilding is likely to fall within permitted development. It must not be used as self-contained living accommodation.' };
+            }
+        },
+        fence: {
+            questions: [
+                { id:'height', label:'Height (metres)', type:'number', hint:'Max 1m adjacent to highway, 2m elsewhere.' },
+                { id:'highway', label:'Is it adjacent to a public highway?', type:'yesno' },
+                { id:'listed', label:'Is the property listed?', type:'yesno' },
+            ],
+            evaluate(a) {
+                if (a.listed === 'yes') return { needed: true, reason: 'Listed buildings require consent for boundary treatments.' };
+                if (a.highway === 'yes' && a.height > 1) return { needed: true, reason: 'Fences/walls over 1m adjacent to a highway require planning permission.' };
+                if (a.height > 2) return { needed: true, reason: 'Fences/walls over 2m require planning permission.' };
+                return { needed: false, reason: 'This fence/wall is within permitted development limits.' };
+            }
+        },
+        porch: { questions: [
+            { id:'area', label:'Ground floor area (square metres)', type:'number', hint:'Max 3m² under PD.' },
+            { id:'height', label:'Maximum height (metres)', type:'number', hint:'Max 3m under PD.' },
+            { id:'highway', label:'Within 2m of a public highway?', type:'yesno' },
+        ], evaluate(a) {
+            if (a.area > 3) return { needed: true, reason: 'Porches over 3m² require planning permission.' };
+            if (a.height > 3) return { needed: true, reason: 'Porches over 3m height require planning permission.' };
+            if (a.highway === 'yes') return { needed: true, reason: 'Porches within 2m of a highway boundary require planning permission.' };
+            return { needed: false, reason: 'This porch is within permitted development limits.' };
+        }},
+        driveway: { questions: [
+            { id:'permeable', label:'Will the surface be permeable (porous) or drain to a garden/soakaway?', type:'yesno' },
+        ], evaluate(a) {
+            if (a.permeable === 'no') return { needed: true, reason: 'Impermeable driveways over 5m² that drain onto the highway require planning permission. Consider permeable paving or draining to a garden area.' };
+            return { needed: false, reason: 'Permeable driveways or those draining to gardens/soakaways are permitted development.' };
+        }},
+        solar: { questions: [
+            { id:'listed', label:'Is the property listed or in a conservation area?', type:'yesno' },
+            { id:'protrude', label:'Will panels protrude more than 200mm from the roof?', type:'yesno' },
+        ], evaluate(a) {
+            if (a.listed === 'yes') return { needed: true, reason: 'Listed buildings and conservation areas may need permission for solar panels.' };
+            if (a.protrude === 'yes') return { needed: true, reason: 'Panels protruding more than 200mm from the roof surface may need permission.' };
+            return { needed: false, reason: 'Solar panels are generally permitted development when mounted on the roof of a house.' };
+        }},
+        internal: { questions: [], evaluate() { return { needed: false, reason: 'Internal alterations do not normally require planning permission (unless the building is listed, in which case listed building consent is needed for any changes affecting character).' }; }},
+        satellite: { questions: [{ id:'listed', label:'Listed or conservation area?', type:'yesno' }, { id:'count', label:'Existing dishes on property?', type:'number' }], evaluate(a) {
+            if (a.listed === 'yes') return { needed: true, reason: 'Listed/conservation area properties need consent for satellite dishes.' };
+            if (a.count >= 1) return { needed: true, reason: 'Only one satellite dish is permitted under PD. Additional dishes require planning permission.' };
+            return { needed: false, reason: 'One satellite dish is permitted development, subject to size limits.' };
+        }},
+        windows: { questions: [{ id:'listed', label:'Is the property listed?', type:'yesno' }, { id:'same_style', label:'Same style and proportions as existing?', type:'yesno' }], evaluate(a) {
+            if (a.listed === 'yes') return { needed: true, reason: 'Listed buildings require listed building consent for replacement windows.' };
+            return { needed: false, reason: 'Replacement windows in the same style generally do not need planning permission. Building regulations approval is required for thermal performance.' };
+        }},
+        side_ext: { questions: [
+            { id:'listed', label:'Listed or conservation area?', type:'yesno' },
+            { id:'width', label:'Width of extension (metres)', type:'number' },
+            { id:'height', label:'Maximum height (metres)', type:'number', hint:'Must not exceed height of original house.' },
+            { id:'storeys', label:'Single storey?', type:'yesno' },
+        ], evaluate(a) {
+            if (a.listed === 'yes') return { needed: true, reason: 'Listed/conservation area properties need planning permission.' };
+            if (a.storeys === 'no') return { needed: true, reason: 'Two-storey side extensions always require planning permission.' };
+            if (a.width > 4) return { needed: true, reason: 'Large side extensions may exceed PD limits — check with your local authority.' };
+            return { needed: false, reason: 'Single-storey side extensions within limits are generally PD. Must be max 4m height and no wider than half the original house.' };
+        }},
+        two_storey_ext: { questions: [{ id:'listed', label:'Listed or conservation area?', type:'yesno' }], evaluate(a) {
+            return { needed: true, reason: 'Two-storey extensions generally require planning permission. Even under permitted development, they have strict limits: max 3m depth, at least 7m from the rear boundary, and cannot be closer than the original house to any side boundary.' };
+        }},
+    };
+
+    function showQuestions() {
+        const type = document.getElementById('projectType').value;
+        const qDiv = document.getElementById('questions');
+        const resDiv = document.getElementById('result');
+        if (!type) { qDiv.style.display = 'none'; resDiv.style.display = 'none'; return; }
+        const project = PROJECTS[type];
+        if (project.questions.length === 0) { qDiv.style.display = 'none'; evaluate(type); return; }
+        qDiv.style.display = 'block'; resDiv.style.display = 'none';
+        document.getElementById('questionFields').innerHTML = project.questions.map(q => {
+            if (q.type === 'yesno') return `<div class="form-row"><label>${q.label}</label><select id="q_${q.id}"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select>${q.hint ? '<div class="form-hint">' + q.hint + '</div>' : ''}</div>`;
+            return `<div class="form-row"><label>${q.label}</label><input type="number" id="q_${q.id}" step="0.1" min="0">${q.hint ? '<div class="form-hint">' + q.hint + '</div>' : ''}</div>`;
+        }).join('') + '<button class="btn btn-primary mt-md" onclick="evaluate(\'' + type + '\')">Check</button>';
+    }
+
+    function evaluate(type) {
+        const project = PROJECTS[type];
+        const answers = {};
+        project.questions.forEach(q => {
+            const el = document.getElementById('q_' + q.id);
+            answers[q.id] = q.type === 'number' ? parseFloat(el?.value) || 0 : el?.value || '';
+        });
+        const result = project.evaluate(answers);
+        const div = document.getElementById('result');
+        div.style.display = 'block';
+        div.innerHTML = `<div class="status-bar ${result.needed ? 'warning' : 'success'} mb-md" style="font-size:1rem">
+            ${result.needed ? '⚠️ Planning permission likely <strong>required</strong>' : '✅ Likely <strong>permitted development</strong> — no planning permission needed'}
+        </div>
+        <div class="card"><p style="line-height:1.7">${result.reason}</p>
+        <p class="mt-md text-muted" style="font-size:.85rem"><strong>Important:</strong> This is general guidance only. Always verify with your local planning authority before starting work. Consider applying for a Lawful Development Certificate (£206) for formal confirmation.</p></div>`;
+    }
+    </script>
+</body>
+</html>

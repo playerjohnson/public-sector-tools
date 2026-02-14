@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Sector Pay Calculator UK — NHS, Civil Service & Council Pay Grades 2025/26</title>
+    <meta name="description" content="Look up public sector pay grades and salaries for NHS Agenda for Change, Civil Service, and local government (NJC) scales. Updated for 2025/26.">
+    <link rel="canonical" href="https://playerjohnson.github.io/public-sector-tools/tools/pay-grade-calculator.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553969093740923" crossorigin="anonymous"></script>
+<!-- Google Analytics GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GSVNXL004D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-GSVNXL004D");</script>
+</head>
+<body>
+    <nav class="site-nav"><div class="nav-inner"><a href="../" class="nav-logo"><span class="logo-mark">🏛</span> Public Sector Tools</a><ul class="nav-links"><li><a href="../">Tools</a></li></ul><button class="nav-hamburger" aria-label="Toggle menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button></div></nav>
+
+    <div class="tool-hero"><h1>Public Sector Pay Calculator</h1><p>Look up pay grades across NHS, civil service and local government scales</p></div>
+
+    <div class="tool-container wide">
+        <div class="card">
+            <div class="card-header">Select Pay Scale</div>
+            <div class="form-grid">
+                <div class="form-row">
+                    <label for="scale">Pay Framework</label>
+                    <select id="scale" onchange="showScale()">
+                        <option value="nhs">NHS Agenda for Change (England)</option>
+                        <option value="civil">Civil Service Pay Scales</option>
+                        <option value="local">Local Government (NJC/Green Book)</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label for="band">Band / Grade</label>
+                    <select id="band" onchange="showScale()"></select>
+                </div>
+            </div>
+        </div>
+
+        <div id="result" class="result-card" style="display:none">
+            <h3 id="resultTitle"></h3>
+            <div class="result-grid" id="resultGrid"></div>
+        </div>
+
+        <div class="card mt-md">
+            <div class="card-header" id="tableTitle">Pay Points</div>
+            <div style="overflow-x:auto"><table class="data-table" id="payTable"></table></div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>NHS Agenda for Change</h2>
+        <p>The Agenda for Change (AfC) pay system covers most NHS staff in England. It has 9 pay bands, each with multiple pay points that staff progress through annually. Band 1 is being phased out, with most entry-level roles now starting at Band 2. Higher Cost Area Supplements apply in London and surrounding areas.</p>
+
+        <h2>Civil Service Pay</h2>
+        <p>Civil service pay varies by department, as each department sets its own pay ranges within a common framework. The grades shown are approximate ranges — actual pay depends on your department, role, and location. Common grades run from Administrative Assistant (AA) to Senior Civil Servant (SCS).</p>
+
+        <h2>Local Government NJC</h2>
+        <p>The National Joint Council (NJC) for Local Government Services sets pay scales for council staff in England, Wales and Northern Ireland. The "Green Book" scale uses Spinal Column Points (SCPs) grouped into grades by individual councils.</p>
+
+        <h2>About These Figures</h2>
+        <p>Pay figures shown are approximate and based on publicly available 2024/25 scales with estimated 2025/26 uplifts. Always check with your employer or union for confirmed rates.</p>
+    </div>
+
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../" class="nav-logo" style="color:white"><span class="logo-mark">🏛</span> Public Sector Tools</a><p>Free tools. Not affiliated with any government body.</p></div><div class="footer-col"><h4>Tools</h4><ul><li><a href="pay-grade-calculator.html">Pay Grades</a></li><li><a href="council-tax-estimator.html">Council Tax</a></li><li><a href="business-rates-calculator.html">Business Rates</a></li></ul></div></div><div class="footer-bottom"><p>Approximate figures — check with your employer. <a href="../privacy.html" style="color:rgba(255,255,255,.4);text-decoration:underline">Privacy</a> · <a href="../terms.html" style="color:rgba(255,255,255,.4);text-decoration:underline">Terms</a> © 2026 Public Sector Tools.</p></div></footer>
+    <script src="../assets/js/core.js"></script>
+    <script>
+    const SCALES = {
+        nhs: {
+            name: 'NHS Agenda for Change',
+            bands: {
+                '2': { label:'Band 2', points:[23615,23615] },
+                '3': { label:'Band 3', points:[24071,25674] },
+                '4': { label:'Band 4', points:[26530,29114] },
+                '5': { label:'Band 5', points:[29970,36483] },
+                '6': { label:'Band 6', points:[37338,44962] },
+                '7': { label:'Band 7', points:[46148,52809] },
+                '8a': { label:'Band 8a', points:[53755,60504] },
+                '8b': { label:'Band 8b', points:[62215,72293] },
+                '8c': { label:'Band 8c', points:[73664,86074] },
+                '8d': { label:'Band 8d', points:[87706,101677] },
+                '9': { label:'Band 9', points:[105385,121271] },
+            },
+            roles: { '2':'Healthcare assistants, porters, cleaners', '3':'Senior HCAs, admin assistants', '4':'Assistant practitioners, senior admin', '5':'Staff nurses, therapists, scientists', '6':'Senior nurses, team leaders', '7':'Advanced practitioners, ward managers', '8a':'Matrons, principal scientists', '8b':'Service managers, consultants', '8c':'Deputy directors', '8d':'Directors', '9':'Chief nurses, directors of ops' }
+        },
+        civil: {
+            name: 'Civil Service',
+            bands: {
+                'AA': { label:'Administrative Assistant (AA)', points:[22940,23500] },
+                'AO': { label:'Administrative Officer (AO)', points:[24400,27000] },
+                'EO': { label:'Executive Officer (EO)', points:[28500,33500] },
+                'HEO': { label:'Higher Executive Officer (HEO)', points:[35400,41000] },
+                'SEO': { label:'Senior Executive Officer (SEO)', points:[41000,49000] },
+                'G7': { label:'Grade 7', points:[55000,65000] },
+                'G6': { label:'Grade 6', points:[67000,78000] },
+                'SCS1': { label:'Deputy Director (SCS1)', points:[76000,120000] },
+            },
+            roles: { 'AA':'Admin support', 'AO':'Caseworkers, admin officers', 'EO':'Team leaders, policy officers', 'HEO':'Senior caseworkers, project leads', 'SEO':'Branch managers, senior policy', 'G7':'Deputy heads of unit', 'G6':'Heads of unit', 'SCS1':'Deputy directors' }
+        },
+        local: {
+            name: 'Local Government NJC',
+            bands: {
+                '1': { label:'Scale 1 (SCP 2-3)', points:[22366,22737] },
+                '2': { label:'Scale 2 (SCP 3-4)', points:[22737,23114] },
+                '3': { label:'Scale 3 (SCP 5-6)', points:[23500,23893] },
+                '4': { label:'Scale 4 (SCP 7-11)', points:[24294,25545] },
+                '5': { label:'Scale 5 (SCP 12-17)', points:[25979,27711] },
+                '6': { label:'Scale 6 (SCP 18-22)', points:[28163,29777] },
+                'SO1': { label:'SO1 (SCP 23-25)', points:[30296,31364] },
+                'SO2': { label:'SO2 (SCP 26-28)', points:[31586,33024] },
+                'PO1': { label:'PO1 (SCP 29-33)', points:[33366,36124] },
+                'PO3': { label:'PO3 (SCP 34-37)', points:[36648,38223] },
+            },
+            roles: { '1':'Cleaner, caretaker', '2':'Admin assistant', '3':'Senior admin, receptionist', '4':'Technical assistant, finance clerk', '5':'Senior technician, team admin', '6':'Senior officer, project support', 'SO1':'Specialist officer', 'SO2':'Senior specialist', 'PO1':'Principal officer, team manager', 'PO3':'Senior manager' }
+        }
+    };
+
+    function populateBands() {
+        const s = document.getElementById('scale').value;
+        const sel = document.getElementById('band');
+        sel.innerHTML = Object.entries(SCALES[s].bands).map(([k,v]) => `<option value="${k}">${v.label}</option>`).join('');
+    }
+
+    function showScale() {
+        const s = document.getElementById('scale').value;
+        const b = document.getElementById('band').value;
+        const scale = SCALES[s];
+        const band = scale.bands[b];
+        if (!band) { populateBands(); return; }
+
+        const min = band.points[0], max = band.points[band.points.length - 1];
+        const monthlyMin = min / 12, monthlyMax = max / 12;
+
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('resultTitle').textContent = `${scale.name} — ${band.label}`;
+        document.getElementById('resultGrid').innerHTML = `
+            <div class="result-item"><div class="result-value">${PS.fmtGBP(min)}</div><div class="result-label">Minimum</div></div>
+            <div class="result-item"><div class="result-value">${PS.fmtGBP(max)}</div><div class="result-label">Maximum</div></div>
+            <div class="result-item"><div class="result-value">${PS.fmtGBP(monthlyMin)}</div><div class="result-label">Monthly (min)</div></div>
+            <div class="result-item"><div class="result-value">${PS.fmtGBP(monthlyMax)}</div><div class="result-label">Monthly (max)</div></div>
+        `;
+
+        document.getElementById('tableTitle').textContent = scale.name + ' — All Grades';
+        document.getElementById('payTable').innerHTML = `<thead><tr><th>Grade</th><th>Typical Roles</th><th>Minimum</th><th>Maximum</th></tr></thead><tbody>` +
+            Object.entries(scale.bands).map(([k,v]) =>
+                `<tr class="${k === b ? 'highlight' : ''}"><td><strong>${v.label}</strong></td><td style="font-size:.82rem;color:var(--ink-muted)">${scale.roles[k] || ''}</td><td>${PS.fmtGBP(v.points[0])}</td><td>${PS.fmtGBP(v.points[v.points.length-1])}</td></tr>`
+            ).join('') + `</tbody>`;
+    }
+
+    populateBands(); showScale();
+    document.getElementById('scale').addEventListener('change', () => { populateBands(); showScale(); });
+    </script>
+</body>
+</html>
